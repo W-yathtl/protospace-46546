@@ -160,7 +160,11 @@ GEM
     nio4r (2.7.4)
     nokogiri (1.15.2-x86_64-darwin)
       racc (~> 1.4)
+    nokogiri (1.15.2-x86_64-linux)
+      racc (~> 1.4)
     orm_adapter (0.5.0)
+    pg (1.6.2-x86_64-darwin)
+    pg (1.6.2-x86_64-linux)
     pry (0.14.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -240,8 +244,6 @@ GEM
       railties (>= 6.0.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    tzinfo-data (1.2025.2)
-      tzinfo (>= 1.0.0)
     warden (1.2.9)
       rack (>= 2.0.9)
     web-console (4.2.0)
@@ -266,6 +268,7 @@ GEM
 PLATFORMS
   x86_64-darwin-21
   x86_64-darwin-24
+  x86_64-linux
 
 DEPENDENCIES
   bootsnap
@@ -277,6 +280,7 @@ DEPENDENCIES
   jbuilder
   mini_magick
   mysql2 (~> 0.5)
+  pg
   pry-rails
   puma (~> 6.0)
   rails (~> 7.1.0)
