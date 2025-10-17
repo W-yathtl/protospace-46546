@@ -1,8 +1,10 @@
 class PrototypesController < ApplicationController
+  before_action :set_prototype, except: [:index, :new, :create]
+  before_action :authenticate_user!, except: [:index, :show]
+  before_action :contributor_confirmation, only: [:edit, :update, :destroy]
+
   def index
-    # すべてのプロトタイプを取得
-    # 投稿者(User)と画像(ActiveStorage)をまとめて取得してN+1問題を防ぐ
-    @prototypes = Prototype.all.includes(:user, image_attachment: :blob)
+    @prototypes = Prototype.includes(:user)
   end
 
   def new
@@ -12,44 +14,47 @@ class PrototypesController < ApplicationController
   def create
     @prototype = Prototype.new(prototype_params)
     if @prototype.save
-      redirect_to root_path, notice: "プロトタイプを投稿しました"
+      redirect_to root_path
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 
   def show
-       @prototype = Prototype.find(params[:id]) 
-       @comment = Comment.new
+    @comment = Comment.new
+    @comments = @prototype.comments
   end
-  
-def edit
-  @prototype = Prototype.find(params[:id])
-  unless user_signed_in? && current_user.id == @prototype.user_id
-    redirect_to root_path, alert: "編集権限がありません"
+
+  def edit
   end
-end
+
   def update
-    @prototype = Prototype.find(params[:id])
     if @prototype.update(prototype_params)
-      redirect_to prototype_path(@prototype), notice: "プロトタイプを更新しました"
+      redirect_to prototype_path(@prototype)
     else
-     render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
-    @prototype = Prototype.find(params[:id])
     if @prototype.destroy
-      redirect_to root_path, notice: "プロトタイプを削除しました"
+      redirect_to root_path
     else
-      render :show, status: :unprocessable_entity
+      redirect_to root_path
     end
   end
+
   private
 
-  # ストロングパラメーター
   def prototype_params
     params.require(:prototype).permit(:title, :catch_copy, :concept, :image).merge(user_id: current_user.id)
+  end
+
+  def set_prototype
+    @prototype = Prototype.find(params[:id])
+  end
+
+  def contributor_confirmation
+    redirect_to root_path unless current_user == @prototype.user
   end
 end

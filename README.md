@@ -1,44 +1,44 @@
-### usersテーブル
+# DB 設計
 
-| カラム名 | 型 | 制約 |
-|-----------|------------|----------------|
-| email | string | NOT NULL, ユニーク制約 |
-| encrypted_password | string | NOT NULL |
-| name | string | NOT NULL |
-| profile | text | NOT NULL |
-| occupation | text | NOT NULL |
-| position | text | NOT NULL |
+## users table
 
-#### アソシエーション
-- has_many :prototypes  
-- has_many :comments  
+| Column             | Type                | Options                   |
+|--------------------|---------------------|---------------------------|
+| email              | string              | null: false, unique: true |
+| encrypted_password | string              | null: false               |
+| name               | string              | null: false               |
+| profile            | text                | null: false               |
+| occupation         | text                | null: false               |
+| position           | text                | null: false               |
 
----
+### Association
 
-### prototypesテーブル
+* has_many :prototypes
+* has_many :comments
 
-| カラム名 | 型 | 制約 |
-|-----------|------------|----------------|
-| title | string | NOT NULL |
-| catch_copy | text | NOT NULL |
-| concept | text | NOT NULL |
-| user | references | NOT NULL, 外部キー制約 |
+## prototypes table
 
-#### アソシエーション
-- belongs_to :user  
-- has_many :comments  
-- has_one_attached :image（ActiveStorage使用）  
+| Column                              | Type       | Options                        |
+|-------------------------------------|------------|--------------------------------|
+| title                               | string     | null: false                    |
+| catch_copy                          | text       | null: false                    |
+| concept                             | text       | null: false                    |
+| user                                | references | null: false, foreign_key: true |
 
----
+### Association
 
-### commentsテーブル
+- belongs_to :user
+- has_many :comments
 
-| カラム名 | 型 | 制約 |
-|-----------|------------|----------------|
-| content | text | NOT NULL |
-| prototype | references | NOT NULL, 外部キー制約 |
-| user | references | NOT NULL, 外部キー制約 |
+## comments table
 
-#### アソシエーション
-- belongs_to :prototype  
-- belongs_to :user  
+| Column      | Type       | Options                        |
+|-------------|------------|--------------------------------|
+| content     | text       | null: false                    |
+| prototype   | references | null: false, foreign_key: true |
+| user        | references | null: false, foreign_key: true |
+
+### Association
+
+- belongs_to :prototype
+- belongs_to :user

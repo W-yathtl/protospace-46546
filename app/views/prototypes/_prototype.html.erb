@@ -1,22 +1,10 @@
 <div class="card">
-  <%# 画像表示（ActiveStorageで添付されている場合） %>
-   <% if prototype.image.attached? %>
-    <%= link_to image_tag(url_for(prototype.image), class: :card__img), prototype_path(prototype) %>
-  <% else %>
-   <%= link_to image_tag("https://via.placeholder.com/300x200?text=No+Image", class: :card__img), prototype_path(prototype) %>
-  <% end %>
-  
-
+  <%= link_to image_tag(prototype.image, class: :card__img ), prototype_path(prototype) %>
   <div class="card__body">
-    <%# タイトル %>
-    <%= link_to prototype.title, prototype_path(prototype), class: :card__title %>
-
-    <%# キャッチコピー %>
+    <%= link_to prototype.title, prototype_path(prototype), class: :card__title%>
     <p class="card__summary">
       <%= prototype.catch_copy %>
     </p>
-
-    <%# 投稿者名 %>
-    <%= link_to "by #{prototype.user.name}", prototype_path(prototype), class: :card__user %>
+    <%= link_to "by #{prototype.user.name}", user_path(prototype.user), class: :card__user %>
   </div>
 </div>
